@@ -16,6 +16,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<link rel="icon" href="../assets/images/bake-id.ico">
+	<link rel="stylesheet" href="../assets/icons/css/fontawesome.min.css">
+	<link rel="stylesheet" href="../assets/icons/css/all.css">
 	<title>BAKE.ID - Home</title>
 
 	<script>
@@ -59,7 +61,17 @@
 			<a href="../logic/logout" class="logout" id="logout" onmouseover="changeImg();" onmouseout="changeImgRevs();"><img src="../assets/images/logout.png" id="logout-img">Logout</a>
 		</div>
 		<div class="center">
-			<p>tes</p>
+			<div class="header">
+				<p class="order-menu"><strong>Order</strong> Menu</p>
+				<form action="" method="POST">
+					<span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+					<input type="text" name="search" id="search" placeholder="Search">
+				</form>
+			</div>
+			<div class="regular-custom">
+				<a href="" class="regular">REGULAR</a>
+				<a href="" class="custom">CUSTOM</a>
+			</div>
 		</div>
 		<div class="right">
 			<p>tes</p>

@@ -229,10 +229,69 @@
   box-sizing: border-box;
   position: relative;
   display: flex;
+  max-width: 65%;
   flex-direction: column;
+}
+.container .center .header {
+  display: flex;
+  height: 5%;
+  width: auto;
+  padding: 3%;
+  flex-direction: row;
+  padding-top: 3%;
+  padding-right: 3%;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  /*color: #fff;*/
+  max-width: 100%;
+  /*background-color: blue;*/
+}
+.container .center .header p {
+  font-size: 30px;
+}
+.container .center .header input {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 10px 10px 40px;
+  width: 380px;
+  float: left;
+  font-size: 15px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+}
+.container .center .header .icon {
+  /*font-size: 20px;*/
+  color: #C9C9C9;
+  position: absolute;
+  top: 2.5%;
+  z-index: 1;
+  margin-left: 17px;
+  margin-top: 17px;
+}
+.container .center .regular-custom {
+  /*background-color: blue;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.container .center .regular-custom .regular {
+  background-color: #D82148;
+  padding: 10px 160px 10px 160px;
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #FFF;
+}
+.container .center .regular-custom .custom {
+  background-color: #FFF;
+  padding: 10px 160px 10px 160px;
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #D82148;
+}
+.container .center .regular-custom .custom:hover {
+  background-color: #D82148;
+  color: #FFF;
 }
 .container .right {
   width: 25%;
