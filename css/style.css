@@ -1,0 +1,249 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Century Gothic;
+}
+.container {
+  width: 100%;
+  height: auto;
+  background-color: #FFF;
+  /*background: linear-gradient(80deg, #035fce, #f5008c, #000000);*/
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+}
+.container .login-left {
+  width: 40%;
+  height: auto;
+  background-color: #D82148;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.container .login-left h3 {
+  font-size: 48px;
+  font-weight: 300;
+  margin-top: 50%;
+}
+.container .login-left h1 {
+  font-size: 72px;
+  font-weight: 300;
+}
+.container .login-left p {
+  font-size: 24px;
+  margin-top: 1em;
+  margin-bottom: 294px;
+}
+.container .login-right {
+  width: 60%;
+  height: auto;
+  background-color: #fff;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*justify-content: center;*/
+}
+.container .login-right img {
+  width: 402px;
+  height: 216px;
+}
+.container .login-right h4 {
+  font-size: 36px;
+  font-weight: 200;
+  margin: 1em 0px 1em 0px;
+}
+.container .login-right form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .login-right input {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-bottom-width: 1px;
+  border-right-width: 0px;
+  border-bottom-color: #000;
+  padding: 10px;
+  width: 600px;
+}
+.container .login-right .show-password {
+  position: absolute;
+  top: 56%;
+  right: 12%;
+}
+#toggle {
+  position: absolute;
+  background: url(../assets/icons/show.png);
+  background-size: cover;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  transform: translateY(-50%);
+  top: 53.3%;
+  right: 110px;
+}
+#toggle.hide{
+    background: url(../assets/icons/hide.png);
+    background-size: cover;
+}
+.container .login-right h5 {
+  font-size: 14px;
+  font-weight: 200;
+}
+.container .login-right button {
+  margin-top: 2em;
+  padding: 10px 100px 10px 100px;
+  border: none;
+  background-color: #D82148;
+  color: #fff;
+  border-radius: 20px;
+}
+.container .login-right button:hover {
+  margin-top: 2em;
+  padding: 10px 100px 10px 100px;
+  border: 1px solid #D82148;
+  background-color: #fff;
+  color: #D82148;
+}
+.container .left {
+  width: 10%;
+  height: auto;
+  background-color: #FFF;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  /*color: #fff;*/
+}
+.container .left img {
+  height: 68px;
+  width: 101px;
+}
+.container .left .home {
+  margin-top: 30%;
+  /*padding: 12px 20px 12px 20px;*/
+  padding: 12px 18px 10px 18px;;
+  border: none;
+  background-color: #D82148;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  font-size: 10px;
+}
+.container .left .home img {
+  width: 40px;
+  height: 40px;
+}
+.container .left .transaction {
+  margin-top: 20%;
+  /*padding: 12px 12px 10px 12px;*/
+  padding: 12px 12px 12px 12px;;
+  border: none;
+  background-color: #FFF;
+  color: #C9C9C9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  font-size: 10px;
+}
+.container .left .transaction img {
+  width: 40px;
+  height: 40px;
+}
+.container .left .transaction:hover {
+  border: none;
+  background-color: #D82148;
+  color: #FFF;
+  font-size: 10px;
+}
+.container .left .stock {
+  margin-top: 20%;
+  padding: 12px 18px 10px 18px;
+  border: none;
+  background-color: #FFF;
+  color: #C9C9C9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  font-size: 10px;
+}
+.container .left .stock img {
+  width: 40px;
+  height: 40px;
+}
+.container .left .stock:hover {
+  border: none;
+  background-color: #D82148;
+  color: #FFF;
+  font-size: 10px;
+}
+.container .left .logout {
+  margin-top: 180%;
+  margin-bottom: 19%;
+  padding: 12px 18px 10px 18px;
+  border: none;
+  background-color: #FFF;
+  color: #D82148;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  font-size: 10px;
+}
+.container .left .logout img {
+  width: 40px;
+  height: 40px;
+}
+.container .left .logout:hover {
+  border: none;
+  background-color: #D82148;
+  color: #FFF;
+  font-size: 10px;
+}
+.container .center {
+  width: 65%;
+  height: auto;
+  background-color: #F1F1F1;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /*color: #fff;*/
+}
+.container .right {
+  width: 25%;
+  height: auto;
+  background-color: #FFF;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /*color: #fff;*/
+}
