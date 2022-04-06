@@ -8,8 +8,6 @@
 	// }
 	$id_employee	=	$_SESSION['session_id'];
 	$role 			=	$_SESSION['session_role'];
-
-	// $id_product_rec	=	$_GET['id-product'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,6 +22,7 @@
 	<title>BAKE.ID - Home</title>
 
 	<script>
+		// Script ganti gambar button (START)
 		function changeImg() {
 			const y = document.getElementById('logout-img');
 			y.setAttribute('src', '../assets/images/logout-alt.png');
@@ -48,20 +47,45 @@
 			const y = document.getElementById('stock-img');
 			y.setAttribute('src', '../assets/images/stock.png');
 		}
-		function fullScreen() {
-			var el = document.documentElement;
-			if (document.readyState === 'complete') {
-				el.requestFullscreen();
-			}
+		// Script ganti gambar button (END)
+
+		// function fullScreen() {
+		// 	var el = document.documentElement;
+		// 	if (document.readyState === 'complete') {
+		// 		el.requestFullscreen();
+		// 	}
+		// }
+
+		// Fungsi untuk tambah jumlah produk di summary-price (START)
+		function increaseAmmount(id_product, status) {
+			var id =  id_product;
+			const action = status;
+			$.ajax({
+				type: 'POST',
+				url: "../logic/trn-process.php",
+				data: {'id-product': id, 'action': action},
+				success: function() {
+					$('.right').load("../show.php");
+				}
+			});
 		}
-		function increaseAmmount() {
-			var amt = parseInt(document.getElementById('ammount-input').value);
-			document.getElementById('ammount-input').value = amt+1;
+		// Fungsi untuk tambah jumlah produk di summary-price (END)
+
+		// Fungsi untuk kurangi jumlah produk di summary-price (START)
+		function decreaseAmmount(id_product, status) {
+			var id =  id_product;
+			const action = status;
+			$.ajax({
+				type: 'POST',
+				url: "../logic/trn-process.php",
+				data: {'id-product': id, 'action': action},
+				success: function() {
+					$('.right').load("../show.php");
+				}
+			});
 		}
-		function decreaseAmmount() {
-			var amt = parseInt(document.getElementById('ammount-input').value);
-			document.getElementById('ammount-input').value = amt-1;
-		}
+		// Fungsi untuk kurangi jumlah produk di summary-price (END)
+
 		function showCustomSection() {
 			// document.getElementById('main-section').style.display='none';
 			document.getElementById('custom-section').style.display='inline';
@@ -70,18 +94,40 @@
 			document.getElementById('custom-section').style.display='none';	
 			document.getElementById('main-section').style.display='inline';
 		}
+
+		// Fungsi untuk mendapatkan data pesanan dari database (START)
 		function getValue(id_product) {
 			var data =  id_product;
-			// alert(data);
 			$.ajax({
 				type: 'POST',
 				url: "../logic/trn-process.php",
 				data: {'id-product': data},
 				success: function() {
-					$('.summary-price').load("../show.php");
+					$('.right').load("../show.php");
 				}
 			});
 		}
+		// Fungsi untuk mendapatkan data pesanan dari database (END)
+
+		$(document).ready(function(){
+		    load_data();
+		    function load_data(search){
+		      $.ajax({
+		        url:"../show-product.php",
+		        method:"POST",
+		        data: {
+		          search: search
+		        },
+		        success:function(data){
+		          $('.menu').html(data);
+		        }
+		      });
+		    }
+		    $('#search').keyup(function(){
+		      var search = $("#search").val();
+		      load_data(search);
+		    });
+		  });
 	</script>
 </head>
 <body> 
@@ -110,7 +156,7 @@
 				<a class="custom" id="custom-toggle" onclick="showCustomSection()">CUSTOM</a>
 			</div>
 			<div class="menu">
-					<?php 
+					<!-- <?php 
 						$sql2		=	"SELECT * FROM product";
 						$query2		=	mysqli_query($db_con, $sql2);
 						WHILE($data2		=	mysqli_fetch_array($query2)){
@@ -127,7 +173,7 @@
 					</a>
 					<?php 
 						}
-					?>
+					?> -->
 			</div>
 		</div>
 		<div class="center-custom" id="custom-section">
@@ -176,30 +222,23 @@
 			</div> -->
 		</div>
 		<div class="right">
-			<div class="summary-text">
+			<!-- <div class="summary-text">
 				<h3>Summary</h3>
 			</div>
 			<div class="summary-price">
-				<!-- <div class="item"> -->
-					<!-- <div class="item-img">
-						<img src="../assets/images/baguette.png">
-					</div>
-					<div class="item-name-price">
-						<h4>Baguette</h4>
-						<p>Rp 20.000</p>
-					</div>
-					<div class="item-value">
-						<div class="input-button fa-solid fa-minus" id="minus" onclick="decreaseAmmount()"></div>
-						<input type="number" name="item-value" id="ammount-input">
-						<div class="input-button fa-solid fa-plus" id="plus" onclick="increaseAmmount()"></div>
-					</div> -->
-				<!-- </div> -->
+
 			</div>
+			<?php 
+				$sql3 			=	"SELECT SUM(price*amount) as subtotal FROM transaction_process";
+				$query3 		=	mysqli_query($db_con, $sql3);
+				$data3 			=	mysqli_fetch_array($query3);
+				$subtotal		=	$data3['subtotal'];
+			?>
 			<div class="summary-total">
 				<hr>
 				<div class="subtotal">
 					<p>Subtotal</p>
-					<p>Rp 160.000</p>
+					<p>Rp</p>
 				</div>
 				<div class="tax">
 					<p>Tax</p>
@@ -213,7 +252,7 @@
 			</div>
 			<div class="summary-button">
 				<a href="" class="proceed-button">Proceed</a>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </body>
