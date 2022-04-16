@@ -1,15 +1,7 @@
-<link rel="stylesheet" type="text/css" href="../css/style.css">
-<link rel="icon" href="../assets/images/bake-id.ico">
-<link rel="stylesheet" href="../assets/icons/css/fontawesome.min.css">
-<link rel="stylesheet" href="../assets/icons/css/all.css">
-<script type="text/javascript" src="../js/jquery.js"></script>
-<div class="summary-text">
-	<h3>Summary</h3>
-</div>
 <div class="summary-price">
 	<?php
-	include 'logic/connection.php';
-	$sql2		=	"SELECT * FROM transaction_process";
+	include '../logic/connection.php';
+	$sql2		=	"SELECT * FROM cart";
 	$query2		=	mysqli_query($db_con, $sql2);
 	WHILE($data2		=	mysqli_fetch_array($query2)){
 	$id_product =	$data2['id_product'];
@@ -41,7 +33,7 @@
 ?>
 </div>
 <?php 
-	$sql3 			=	"SELECT SUM(price*amount) as subtotal FROM transaction_process";
+	$sql3 			=	"SELECT SUM(price*amount) as subtotal FROM cart";
 	$query3 		=	mysqli_query($db_con, $sql3);
 	$data3 			=	mysqli_fetch_array($query3);
 	$subtotal		=	$data3['subtotal'];
@@ -64,7 +56,4 @@
 		<p>Total</p>
 		<p>Rp <?php echo number_format($total);?></p>
 	</div>
-</div>
-<div class="summary-button">
-	<a href="" class="proceed-button">Proceed</a>
 </div>

@@ -1,5 +1,5 @@
 <?php 
-	include 'logic/connection.php';
+	include '../logic/connection.php';
 
 	$sql2		=	"SELECT * FROM product ORDER BY product_name ASC";
 	$keyword="";
