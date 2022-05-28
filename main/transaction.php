@@ -47,6 +47,26 @@
 			const y = document.getElementById('stock-img');
 			y.setAttribute('src', '../assets/images/stock.png');
 		}
+		// Script Search dan Show Data Transaksi
+		$(document).ready(function(){
+			load_data();
+			function load_data(search){
+				$.ajax({
+					url:"../handler/show-transaction.php",
+					method:"POST",
+					data: {
+						search: search
+					},
+					success:function(data){
+						$('.table-wrapper').html(data);
+					}
+				});
+			}
+			$('#search').keyup(function(){
+				var search = $('#search').val();
+				load_data(search);
+			});
+		});
 	</script>
 </head>
 <body> 
@@ -71,26 +91,7 @@
 				</form>
 			</div>
 			<div class="table-wrapper">
-				<table class="table">
-					<tr>
-						<th class="no">No</th>
-						<th class="customer-name">Customer Name</th>
-						<th class="transaction-date">Transaction Date</th>
-						<th class="order">Order</th>
-						<th class="amount">Amount</th>
-						<th class="total">Total</th>
-						<th class="status">Status</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>Sandy</td>
-						<td>08-04-2022</td>
-						<td>Birthday Cake - Choco</td>
-						<td>1</td>
-						<td>Rp 120.000</td>
-						<td>Done</td>
-					</tr>
-				</table>
+				
 			</div>
 		</div>
 	</div>

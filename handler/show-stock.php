@@ -20,6 +20,9 @@
 		<h4><?php echo $name;?></h4>
 		<p>Rp <?php echo number_format($price);?></p>
 	</div>
+	<div class="delete fa-solid fa-trash" onclick="deleteProduct(<?php echo $id_product;?>)">
+		
+	</div>
 	<div class="stock-input">
 		<div class="input-button fa-solid fa-minus" id="minus" onclick="stockHandler(<?php echo $id_product;?>, 'decrease')"></div>
 		<input type="number" name="item-value" id="stock-input" value="<?php echo $stock;?>" readonly>

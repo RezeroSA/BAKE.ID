@@ -2,10 +2,10 @@
 	session_start();
 	require '../logic/connection.php';
 
-	// if (!isset($_SESSION['session_id']) && !isset($_SESSION['session_role'])) {
-	// 	echo "<script>alert('Session has ended. Please relogin')</script>";
-	// 	echo "<meta http-equiv='refresh' content='0 url=../'>";
-	// }
+	if (!isset($_SESSION['session_id']) && !isset($_SESSION['session_role'])) {
+		echo "<script>alert('Session has ended. Please relogin')</script>";
+		echo "<meta http-equiv='refresh' content='0 url=../'>";
+	}
 	$id_employee	=	$_SESSION['session_id'];
 	$role 			=	$_SESSION['session_role'];
 ?>
@@ -57,13 +57,6 @@
 		}
 		// Script ganti gambar button (END)
 
-		// function fullScreen() {
-		// 	var el = document.documentElement;
-		// 	if (document.readyState === 'complete') {
-		// 		el.requestFullscreen();
-		// 	}
-		// }
-
 		// Fungsi untuk tambah jumlah produk di summary-price (START)
 		function increaseAmmount(id_product, status) {
 			var id =  id_product;
@@ -74,6 +67,7 @@
 				data: {'id-product': id, 'action': action},
 				success: function() {
 					$('.data').load("../handler/show-cart.php");
+					$('.menu').load("../handler/show-product.php");
 				}
 			});
 		}
@@ -89,21 +83,22 @@
 				data: {'id-product': id, 'action': action},
 				success: function() {
 					$('.data').load("../handler/show-cart.php");
+					$('.menu').load("../handler/show-product.php");
 				}
 			});
 		}
 		// Fungsi untuk kurangi jumlah produk di summary-price (END)
 
-		function showCustomSection() {
-			// document.getElementById('main-section').style.display='none';
-			document.getElementById('custom-section').style.display='inline';
-		}
-		function showMainSection() {
-			document.getElementById('custom-section').style.display='none';	
-			document.getElementById('main-section').style.display='inline';
-		}
+		// function showCustomSection() {
+		// 	// document.getElementById('main-section').style.display='none';
+		// 	document.getElementById('custom-section').style.display='inline';
+		// }
+		// function showMainSection() {
+		// 	document.getElementById('custom-section').style.display='none';	
+		// 	document.getElementById('main-section').style.display='inline';
+		// }
 
-		// Fungsi untuk mendapatkan data pesanan dari database (START)
+		// Fungsi untuk mendapatkan data cart dari database (START)
 		function getValue(id_product) {
 			var data =  id_product;
 			$.ajax({
@@ -112,10 +107,12 @@
 				data: {'id-product': data},
 				success: function() {
 					$('.data').load("../handler/show-cart.php");
+					$('.menu').load("../handler/show-product.php");
 				}
 			});
 		}
-		// Fungsi untuk mendapatkan data pesanan dari database (END)
+
+		// Fungsi untuk mendapatkan data cart dari database (END)
 
 		$(document).ready(function(){
 		    load_data();
@@ -135,7 +132,27 @@
 		      var search = $("#search").val();
 		      load_data(search);
 		    });
-		  });
+		});
+
+		// $(document).ready(function(){
+		//     load_data();
+		//     function load_data(search){
+		//       $.ajax({
+		//         url:"../handler/show-product.php",
+		//         method:"POST",
+		//         data: {
+		//           search: search
+		//         },
+		//         success:function(data){
+		//           $('.menu').html(data);
+		//         }
+		//       });
+		//     }
+		//     $('#product').click(function(){
+		//       var search = $("#search").val();
+		//       load_data(search);
+		//     });
+		// });
 
 		// Fungsi untuk payment method (START)
 		function paymentMethod(payment, id_emp) {
@@ -143,29 +160,33 @@
 			var phone = document.getElementById('phone').value;
 			var payment = payment;
 			var idEmp  = id_emp;
-			// var total = document.getElementById('total').text;
-			// alert(custName+phone+payment+idEmp);
-			// $.ajax({
-			// 	type: 'POST',
-			// 	url: "../logic/trn-process.php",
-			// 	data: {'customer-name': custName, 'phone': phone, 'payment': payment, 'id-employee': idEmp},
-			// 	success: function() {
-			// 		document.getElementById('payment-overlay').classList.remove('is-visible');
-		 //  			document.getElementById('payment-method').classList.remove('is-visible');
+			// alert(total);
+			$.ajax({
+				type: 'POST',
+				url: "../logic/trn-process.php",
+				data: {'customer-name': custName, 'phone': phone, 'payment': payment, 'id-employee': idEmp},
+				success: function() {
+					$('.data').load("../handler/show-cart.php");
 
-			// 		document.getElementById('overlay').classList.add('is-visible');
-		 //  			document.getElementById('modal').classList.add('is-visible');
+					document.getElementById('cust-name').value='';
+					document.getElementById('phone').value='';
 
-		 //  			document.getElementById('close-btn').addEventListener('click', function() {
-			// 		  document.getElementById('overlay').classList.remove('is-visible');
-			// 		  document.getElementById('modal').classList.remove('is-visible');
-			// 		});
-			// 		document.getElementById('overlay').addEventListener('click', function() {
-			// 		  document.getElementById('overlay').classList.remove('is-visible');
-			// 		  document.getElementById('modal').classList.remove('is-visible');
-			// 		});
-			// 	}
-			// });
+					document.getElementById('payment-overlay').classList.remove('is-visible');
+		  			document.getElementById('payment-method').classList.remove('is-visible');
+
+					document.getElementById('overlay').classList.add('is-visible');
+		  			document.getElementById('modal').classList.add('is-visible');
+
+		  			document.getElementById('close-btn').addEventListener('click', function() {
+					  document.getElementById('overlay').classList.remove('is-visible');
+					  document.getElementById('modal').classList.remove('is-visible');
+					});
+					document.getElementById('overlay').addEventListener('click', function() {
+					  document.getElementById('overlay').classList.remove('is-visible');
+					  document.getElementById('modal').classList.remove('is-visible');
+					});
+				}
+			});
 		}
 	</script>
 </head>
@@ -192,8 +213,8 @@
 				</form>
 			</div>
 			<div class="regular-custom">
-				<a class="regular">REGULAR</a>
-				<a class="custom" id="custom-toggle" onclick="showCustomSection()">CUSTOM</a>
+				<a class="regular">MENU</a>
+				<!-- <a class="custom" id="custom-toggle" onclick="showCustomSection()">CUSTOM</a> -->
 			</div>
 			<div class="menu">
 
@@ -209,7 +230,7 @@
 			</div>
 			<div class="regular-custom-custom">
 				<a class="regular-custom" id="main-toggle" onclick="showMainSection()">REGULAR</a>
-				<a class="custom-custom">CUSTOM</a>
+				<!-- <a class="custom-custom">CUSTOM</a> -->
 			</div>
 			<!-- <div class="menu-custom">
 				<a href="" class="product-custom">
@@ -249,7 +270,65 @@
 				<h3>Summary</h3>
 			</div>
 			<div class="data">
-				<!-- <p>There is no data here</p> -->
+				<div class="summary-price">
+					<?php
+					include '../logic/connection.php';
+					$sql2		=	"SELECT * FROM cart";
+					$query2		=	mysqli_query($db_con, $sql2);
+					WHILE($data2		=	mysqli_fetch_array($query2)){
+					$id_product =	$data2['id_product'];
+					$image		=	$data2['image'];
+					$name 		=	$data2['product_name'];
+					$price		=	$data2['price'];
+					$amount		=	$data2['amount'];
+				?>
+				<div class="item">
+					<div class="item-img">
+						<img src="../assets/images/product/<?php echo $image;?>">
+					</div>
+					<div class="item-name-price">
+						<h4>
+							<?php
+								echo $name;
+							?>
+						</h4>
+						<p>Rp <?php echo number_format($price);?></p>
+					</div>
+					<div class="item-value">
+						<div class="input-button fa-solid fa-minus" id="minus" onclick="decreaseAmmount(<?php echo $id_product;?>, 'decrease')"></div>
+						<input type="number" name="item-value" id="ammount-input" value="<?php echo $amount;?>" readonly>
+						<div class="input-button fa-solid fa-plus" id="plus" onclick="increaseAmmount(<?php echo $id_product;?>, 'increase')"></div>
+					</div>
+				</div>
+				<?php 
+					}
+				?>
+				</div>
+				<?php 
+					$sql3 			=	"SELECT SUM(price*amount) as subtotal FROM cart";
+					$query3 		=	mysqli_query($db_con, $sql3);
+					$data3 			=	mysqli_fetch_array($query3);
+					$subtotal		=	$data3['subtotal'];
+					$tax			=	5/100;
+					$tax_count		=	$subtotal*$tax;
+					$total 			=	$subtotal+$tax_count;
+				?>
+				<div class="summary-total">
+					<hr>
+					<div class="subtotal">
+						<p>Subtotal</p>
+						<p>Rp <?php echo number_format($subtotal);?></p>
+					</div>
+					<div class="tax">
+						<p>Tax</p>
+						<p>5%</p>
+					</div>
+					<hr>
+					<div class="total">
+						<p>Total</p>
+						<p id="total">Rp <?php echo number_format($total);?></p>
+					</div>
+				</div>
 			</div>
 			<div class="summary-button">
 				<a id="open-purchase-confirmation" class="proceed-button">Proceed</a>
@@ -283,25 +362,22 @@
 	  <button class="modal-close-btn" id="close-btn"></button>
 	  <p><strong>Payment</strong> Method</p>
 	  <div class="method">
-	  	<button class="cash" type="submit" id="cash" onclick="paymentMethod('cash', <?php echo $id_employee;?>)"></button>
-	  	<button class="online-payment" type="submit" id="online-payment" onclick="paymentMethod('online-payment', <?php echo $id_employee;?>)"></button>
+	  	<button class="cash" type="submit" id="cash" onclick="paymentMethod('Cash', <?php echo $id_employee;?>)"></button>
+	  	<button class="online-payment" type="submit" id="online-payment" onclick="paymentMethod('Online Payment', <?php echo $id_employee;?>)"></button>
 	  </div>
 	</div>
+
+	//Fullscreen Modal
+	<div class="overlay-fullscreen" id="overlay-fullscreen"></div>
+	<div class="modal-fullscreen" id="modal-fullscreen">
+	  <img src="../assets/images/fullscreen.png">
+	  <h4>Oops looks like your screen is not in the fullscreen mode</h4>
+	  <p>The system need has to be fullscreen to work properly</p>
+	  <!-- <a class="fullscreen-button" id="fullscreen-toggle" onclick="toggleFullscreen()">Yes, please</a> -->
+	  <a class="fullscreen-button" id="fullscreen-toggle">Press F11 or Fn+F11 on your keyboard</a>
+	</div>
+
 	<script>
-		// document.getElementById('open-modal').addEventListener('click', function() {
-		//   document.getElementById('overlay').classList.add('is-visible');
-		//   document.getElementById('modal').classList.add('is-visible');
-		// });
-
-		// document.getElementById('close-btn').addEventListener('click', function() {
-		//   document.getElementById('overlay').classList.remove('is-visible');
-		//   document.getElementById('modal').classList.remove('is-visible');
-		// });
-		// document.getElementById('overlay').addEventListener('click', function() {
-		//   document.getElementById('overlay').classList.remove('is-visible');
-		//   document.getElementById('modal').classList.remove('is-visible');
-		// });
-
 		document.getElementById('open-purchase-confirmation').addEventListener('click', function() {
 		  document.getElementById('purchase-overlay').classList.add('is-visible');
 		  document.getElementById('purchase-confirmation').classList.add('is-visible');
@@ -320,9 +396,6 @@
 			if (document.getElementById('cust-name').value === '' || document.getElementById('phone').value === '') {
 				alert('Please fill all form provided!');
 			} else {
-				// var custName = document.getElementById('cust-name').value;
-				// var phone = document.getElementById('phone').value;
-
 				document.getElementById('purchase-overlay').classList.remove('is-visible');
 			  	document.getElementById('purchase-confirmation').classList.remove('is-visible');
 
@@ -339,6 +412,32 @@
 				});
 			}
 		});
+
+		// window.addEventListener('load', function(){
+		//   if (!window.matchMedia('(display-mode: fullscreen)').matches || window.document.fullscreenElement) {
+
+		// 	document.getElementById('overlay-fullscreen').classList.add('is-visible');
+		// 	document.getElementById('modal-fullscreen').classList.add('is-visible');
+
+		//   }
+		// });
+
+		// if (document.addEventListener)
+		// {
+		//  document.addEventListener('fullscreenchange', exitHandler, false);
+		//  document.addEventListener('mozfullscreenchange', exitHandler, false);
+		//  document.addEventListener('MSFullscreenChange', exitHandler, false);
+		//  document.addEventListener('webkitfullscreenchange', exitHandler, false);
+		// }
+
+		// function exitHandler()
+		// {
+		//  if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+		//  {
+		//  	document.getElementById('overlay-fullscreen').classList.add('is-visible');
+		// 	document.getElementById('modal-fullscreen').classList.add('is-visible');
+		//  }
+		// }
 	</script>
 </body>
 </html>

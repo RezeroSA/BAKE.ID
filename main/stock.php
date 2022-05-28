@@ -75,6 +75,19 @@
 				}
 			})
 		}
+
+		//Script untuk hapus produk
+		function deleteProduct(id_product) {
+			var id = id_product;
+			$.ajax({
+				type: 'POST',
+				url: '../logic/delete-product.php',
+				data: {'id-product':id},
+				success: function() {
+					$('.product-wrapper').load('../handler/show-stock.php');
+				}
+			})
+		}
 	</script>
 </head>
 <body> 

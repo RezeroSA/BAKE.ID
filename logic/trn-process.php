@@ -1,48 +1,54 @@
 <?php 
-$cust_name	=	$_POST['customer-name'];
-$phone		=	$_POST['phone'];
-$id_emp 	=	$_POST['id-employee'];
-$payment 	=	$_POST['payment'];
-// $total 		=	$_POST['total'];
-$date		=	date("Y-m-d H:i:s");
+	require 'connection.php';
+	$cust_name	=	$_POST['customer-name'];
+	$phone		=	$_POST['phone'];
+	$id_emp 	=	$_POST['id-employee'];
+	$payment 	=	$_POST['payment'];
+	// $total 		=	$_POST['total'];
+	$date		=	date("Y-m-d H:i:s");
 
+	$sql 		=	"INSERT INTO customer (name, phone) VALUES ('$cust_name', '$phone')";
+	$query 		=	mysqli_query($db_con, $sql);
 
-$sql 		=	"INSERT INTO customer (name, phone) VALUES ('$cust_name', '$phone')";
-$query		=	mysqli_query($db_con, $sql);
+	if ($query) {
+		$sql2	=	"SELECT id_customer FROM customer ORDER BY id_customer DESC LIMIT 1";
+		$query2 =	mysqli_query($db_con, $sql2);
+		$data2 	=	mysqli_fetch_array($query2);
+		$id_cust=	$data2['id_customer'];
 
-if ($query) {
-	$sql2	=	"SELECT id_customer FROM customer ORDER BY id_customer DESC LIMIT 1";
-	$query2 = 	mysqli_query($db_con, $sql2);
-	$data2	=	mysqli_fetch_array($query2);
-	$id_cust=	$data2['id_customer'];	
+		$sql3 			=	"SELECT SUM(price*amount) as subtotal FROM cart";
+		$query3 		=	mysqli_query($db_con, $sql3);
+		$data3 			=	mysqli_fetch_array($query3);
+		$subtotal		=	$data3['subtotal'];
+		$tax			=	5/100;
+		$tax_count		=	$subtotal*$tax;
+		$total 			=	$subtotal+$tax_count;
 
-	$sqlz 			=	"SELECT SUM(price*amount) as subtotal FROM cart";
-	$queryz 		=	mysqli_query($db_con, $sqlz);
-	$dataz 			=	mysqli_fetch_array($queryz);
-	$subtotal		=	$dataz['subtotal'];
-	$tax			=	5/100;
-	$tax_count		=	$subtotal*$tax;
-	$total 			=	$subtotal+$tax_count;
+		$sql4 	=	"INSERT INTO transact (id_employee, id_customer, total, payment_method, transaction_time) VALUES ('$id_emp', '$id_cust', '$total', '$payment' , '$date')";
+		$query4 =	mysqli_query($db_con, $sql4);
 
-	$sql3 	=	"INSERT INTO transaction (id_employee, id_customer, total, transaction_time) VALUES ('$id_emp', '$id_cust', '$total', '$date')";
-	$query3	=	mysqli_query($db_con, $sql3);
+		if ($query4) {
+			$sql5	=	"INSERT INTO detail_transaction (id_product, qty) SELECT id_product, amount FROM cart";
+			$query5	=	mysqli_query($db_con, $sql5);
 
-	if ($query3) {
-		$sql4	=	"SELECT id_transaction FROM transaction ORDER BY id_transaction DESC LIMIT 1";
-		$query4 = 	mysqli_query($db_con, $sql4);
-		$data4	=	mysqli_fetch_array($query4);
-		$id_trn =	$data4['id_transaction'];
+			if ($query5) {
+				$sql6	=	"SELECT * FROM cart";
+				$query6	=	mysqli_query($db_con, $sql6);
 
-		$sql5 	=	"SELECT id_product, price, amount FROM cart";
-		$query5	=	mysqli_query($db_con, $sql5);
-		WHILE (	$data5 =	mysqli_fetch_array($query5)){
-			$id_prod 	=	$data5['id_product'];
-			$price_prod	=	$data5['price'];
-			$amount_prod=	$data5['amount'];
+				$sql7	=	"SELECT id_transaction FROM transact ORDER BY id_transaction DESC LIMIT 1";
+				$query7	=	mysqli_query($db_con, $sql7);
+				$data7	=	mysqli_fetch_array($query7);
+				$id_tran=	$data7['id_transaction'];
 
-			$sql6	=	"INSERT INTO detail_transaction (id_detail, id_product, price, qty) VALUES ('$id_trn', '$id_prod', '$price_prod', '$amount_prod')";
-			$query6	=	mysqli_query($db_con, $sql6);
+				$stmt 	=	$db_con->prepare("UPDATE detail_transaction SET id_transaction='$id_tran' ORDER BY id_detail DESC LIMIT ?");
+				$limit 	=	mysqli_num_rows($query6);
+				$stmt->bind_param("i", $limit);
+				$stmt->execute();
+				$stmt->close();
+
+				$sql8	=	"DELETE FROM cart";
+				$query8	=	mysqli_query($db_con, $sql8);
+			}
 		}
 	}
-}
 ?>

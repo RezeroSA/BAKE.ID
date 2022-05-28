@@ -9,6 +9,11 @@
 	$name 		=	$data2['product_name'];
 	$price		=	$data2['price'];
 	$amount		=	$data2['amount'];
+
+	$sql3		=	"SELECT stock FROM product WHERE id_product='$id_product'";
+	$query3		=	mysqli_query($db_con, $sql3);
+	$data3		=	mysqli_fetch_array($query3);
+	$stock		=	$data3['stock'];
 ?>
 <div class="item">
 	<div class="item-img">
@@ -54,6 +59,6 @@
 	<hr>
 	<div class="total">
 		<p>Total</p>
-		<p>Rp <?php echo number_format($total);?></p>
+		<p id="total">Rp <?php echo number_format($total);?></p>
 	</div>
 </div>
